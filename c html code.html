@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="zh">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>錶哥 HTML 編輯器</title>
+
+    <link rel="icon" href="https://raw.githubusercontent.com/ryan1114-carer/c-html/refs/heads/main/c%20apk%20icon.png">
+
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            text-align: center;
+
+            margin: 20px;
+
+        }
+
+        #editor {
+
+            width: 100%;
+
+            height: 300px;
+
+            display: none;
+
+        }
+
+        iframe {
+
+            width: 100%;
+
+            height: 300px;
+
+            display: none;
+
+            border: 1px solid #ccc;
+
+        }
+
+        button {
+
+            margin: 10px;
+
+            padding: 10px 20px;
+
+            font-size: 16px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>
+
+        <img src="https://raw.githubusercontent.com/ryan1114-carer/c-html/refs/heads/main/c%20apk%20icon.png" alt="Icon" width="40"> 
+
+        錶哥 HTML 編輯器
+
+    </h1>
+
+    <button onclick="switchMode('preview')">預覽</button>
+
+    <button onclick="switchMode('edit')">寫代碼</button>
+
+    <button onclick="downloadCode()">下載代碼</button>
+
+    <textarea id="editor" placeholder="在這裡輸入 HTML 代碼..."></textarea>
+
+    <iframe id="preview"></iframe>
+
+    
+
+    <script>
+
+        function switchMode(mode) {
+
+            let editor = document.getElementById("editor");
+
+            let preview = document.getElementById("preview");
+
+            if (mode === "edit") {
+
+                editor.style.display = "block";
+
+                preview.style.display = "none";
+
+            } else {
+
+                editor.style.display = "none";
+
+                preview.style.display = "block";
+
+                preview.srcdoc = editor.value;
+
+            }
+
+        }
+
+        function downloadCode() {
+
+            let code = document.getElementById("editor").value;
+
+            let titleMatch = code.match(/<title>(.*?)<\/title>/);
+
+            let filename = titleMatch ? titleMatch[1] + ".html" : "index.html";
+
+            let blob = new Blob([code], { type: "text/html" });
+
+            let link = document.createElement("a");
+
+            link.href = URL.createObjectURL(blob);
+
+            link.download = filename;
+
+            link.click();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
